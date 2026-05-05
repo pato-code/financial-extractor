@@ -52,31 +52,48 @@ Overall financial summary containing:
 ### Setup
 
 1. Clone or download the project
-2. Install dependencies using `uv`:
+2. Create and activate a virtual environment:
    ```bash
-   uv sync
+   python -m venv .venv
+   .\.venv\Scripts\activate
    ```
 
-3. Create a `.env` file in the project directory with your Google API key:
-   ```
-   GOOGLE_API_KEY=your_api_key_here
+3. Install dependencies with pip:
+   ```bash
+   python -m pip install --upgrade pip
+   python -m pip install -r requirements.txt
    ```
 
-4. Add a PDF file named `test.pdf` to the project directory
+4. Create a `.env` file in the project directory with your Google API key:
+   ```bash
+   echo GOOGLE_API_KEY=your_api_key_here > .env
+   ```
+
+5. Add a PDF file named `test.pdf` to the project directory
 
 ## Usage
 
-Run the application:
+Start the FastAPI app from the `financial` folder after activating your virtual environment:
+
+```bash
+python -m uvicorn app.main:app --reload --host 127.0.0.1 --port 8000
+```
+
+Then browse to:
+
+- `http://127.0.0.1:8000/`
+- `http://127.0.0.1:8000/docs`
+
+If you want to run the original command-line extractor, use:
+
 ```bash
 python main.py
 ```
 
-The script will:
-1. Load the PDF file from the current directory
-2. Extract text content from all pages
-3. Send the content to Google Gemini for financial data extraction
-4. Parse the response into a FinancialSummary object
-5. Display the structured financial information
+The FastAPI app will:
+1. Accept a PDF upload
+2. Send the uploaded file content to the AI service
+3. Return structured financial extraction results
 
 ## Dependencies
 

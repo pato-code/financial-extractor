@@ -9,3 +9,6 @@ wheels/
 # Virtual environments
 .venv
 .env
+.financial/.new-venv
+.financial/.venv
+.new-venv/
