@@ -4,6 +4,7 @@ from tempfile import NamedTemporaryFile
 from fastapi import APIRouter, Depends, File, HTTPException, UploadFile
 from ..schemas.responses import FinancialSummary
 from ..services import ApiService
+from ..services.vector import VectorService
 from langchain_core.output_parsers import PydanticOutputParser
 from langchain_community.document_loaders import PyPDFLoader
 import os
@@ -35,4 +36,17 @@ async def extract_financial_info(document: UploadFile = File(...), service: ApiS
     if response is None:
         raise HTTPException(status_code=500, detail="Failed to extract financial information.")
 
+    return response
+
+@router.post("/query-financial-info")
+async def query_financial_info(query: str, service: VectorService = Depends(VectorService)):
+    document = PyPDFLoader("test_3.pdf").load()
+    service.add_documents(document)
+    chunks = service.query(query)
+    print(f"Retrieved chunks: {chunks}")
+    #pass the chunks to the ApiService to get the final response
+    api_service = ApiService()
+    response = api_service.query_financial_info(chunks, query)
+    if response is None:
+        raise HTTPException(status_code=500, detail="Failed to query financial information.")
     return response

@@ -12,3 +12,5 @@ wheels/
 .financial/.new-venv
 .financial/.venv
 .new-venv/
+financial/*.pdf
+financial/.env

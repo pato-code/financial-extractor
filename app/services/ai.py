@@ -35,3 +35,14 @@ class ApiService:
         except Exception as e:
             print(f"An error occurred: {e}")
             return None
+
+
+    def query_financial_info(self, chunks: list, query: str) -> str:
+        # Implement the logic to query financial information from the chunks using the LLM
+        # This is a placeholder implementation and should be replaced with actual logic
+        try:
+            response = self.llm.invoke(f"Given the following chunks of financial information: {chunks}, answer the following query: {query}")
+            return response
+        except Exception as e:
+            print(f"An error occurred: {e}")
+            return None
